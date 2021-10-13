@@ -22,14 +22,18 @@ jobs:
       - uses: pnpm/action-setup@v2.0.1
         with:
           version: 6.7.6
-          run_install: true
+      - run: pnpm i
+        working-directory: common
+      - run: pnpm i
+        working-directory: web
       - run: pnpm build
+        working-directory: web
         env:
           NODE_ENV: production
       - name: Deploy to GitHub Pages
         uses: crazy-max/ghaction-github-pages@v2
         with:
-          build_dir: dist
+          build_dir: web/dist
           jekyll: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

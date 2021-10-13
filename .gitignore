@@ -1,3 +1,9 @@
+# Lock files
+pnpm-lock.yaml
+
+# Symlinked
+electron/common
+
 # Parcel
 .parcel-cache
 
