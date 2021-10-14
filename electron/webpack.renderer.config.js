@@ -1,12 +1,4 @@
-const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-
 module.exports = {
-  mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
-  entry: path.join(__dirname, './index.tsx'),
-  output: {
-    path: path.join(__dirname, './dist')
-  },
   target: 'electron-renderer',
   module: {
     rules: [{
@@ -31,8 +23,5 @@ module.exports = {
   },
   resolve: {
     extensions: ['.tsx', '.js']
-  },
-  plugins: [new HtmlWebpackPlugin({
-    template: path.join(__dirname, './index.html')
-  })]
+  }
 }

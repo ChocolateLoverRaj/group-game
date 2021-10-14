@@ -1,6 +1,6 @@
+/* global MAIN_WINDOW_WEBPACK_ENTRY */
 const { app, session } = require('electron')
 const windowStateKeeper = require('electron-window-state')
-const isDev = require('electron-is-dev')
 const { BrowserWindow } = require('electron')
 const { enable, initialize } = require('@electron/remote/main')
 
@@ -45,5 +45,5 @@ app.whenReady().then(() => {
     })
   })
 
-  win.loadURL(isDev ? 'http://localhost:8080' : 'dist/index.html')
+  win.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
 })

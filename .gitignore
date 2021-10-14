@@ -4,8 +4,9 @@ pnpm-lock.yaml
 # Symlinked
 electron/common
 
-# Parcel
-.parcel-cache
+# Electron Forge
+.webpack
+out
 
 # Logs
 logs
