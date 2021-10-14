@@ -7,7 +7,9 @@ Demo game with  many options for connecting devices.
 Go to https://chocolateloverraj.github.io/group-game/.
 
 ## Windows
-Coming soon
+- Download zip from https://github.com/ChocolateLoverRaj/group-game/releases
+- Unzip
+- Open `.exe`
 
 ## Android
 Coming soon
