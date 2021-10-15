@@ -12,7 +12,8 @@ Go to https://chocolateloverraj.github.io/group-game/.
 - Open `.exe`
 
 ## Android
-Coming soon
+- Download apk from https://github.com/ChocolateLoverRaj/group-game/releases
+- Install
 
 ## Linux
 Pull requests welcome
