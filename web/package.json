@@ -1,7 +1,7 @@
 {
 	"private": true,
 	"name": "group-game-web",
-	"version": "1.0.0",
+	"version": "1.2.0",
 	"description": "Demo game with many options for connecting devices.",
 	"author": {
 		"name": "Rajas Paranjpe",
@@ -16,6 +16,7 @@
 		"@babel/core": "^7.15.8",
 		"@babel/preset-react": "^7.14.5",
 		"@babel/preset-typescript": "^7.15.0",
+		"@types/last-element": "^1.0.0",
 		"@types/react": "^17.0.29",
 		"@types/react-dom": "^17.0.9",
 		"babel-loader": "^8.2.2",
@@ -28,5 +29,8 @@
 		"webpack": "^5.58.2",
 		"webpack-cli": "^4.9.0",
 		"webpack-dev-server": "^4.3.1"
+	},
+	"dependencies": {
+		"last-element": "^1.0.1"
 	}
 }

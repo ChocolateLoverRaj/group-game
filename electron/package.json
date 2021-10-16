@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "group-game-electron",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "Demo game with many options for connecting devices.",
   "author": {
     "name": "Rajas Paranjpe",
@@ -24,6 +24,7 @@
     "@electron-forge/cli": "^6.0.0-beta.61",
     "@electron-forge/maker-zip": "^6.0.0-beta.61",
     "@electron-forge/plugin-webpack": "^6.0.0-beta.61",
+    "@types/last-element": "^1.0.0",
     "@types/react": "^17.0.29",
     "@types/react-dom": "^17.0.9",
     "babel-loader": "^8.2.2",
@@ -37,6 +38,7 @@
   },
   "dependencies": {
     "@electron/remote": "^2.0.1",
-    "electron-window-state": "^5.0.3"
+    "electron-window-state": "^5.0.3",
+    "last-element": "^1.0.1"
   }
 }

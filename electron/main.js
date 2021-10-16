@@ -1,7 +1,6 @@
 /* global MAIN_WINDOW_WEBPACK_ENTRY */
-const { app, session } = require('electron')
+const { app, session, BrowserWindow, shell } = require('electron')
 const windowStateKeeper = require('electron-window-state')
-const { BrowserWindow } = require('electron')
 const { enable, initialize } = require('@electron/remote/main')
 
 initialize()
@@ -43,6 +42,13 @@ app.whenReady().then(() => {
         'Content-Security-Policy': ["default-src 'self' 'unsafe-eval' 'unsafe-inline'"]
       }
     })
+  })
+
+  // From https://stackoverflow.com/a/32427579/11145447
+  win.webContents.setWindowOpenHandler(function (e) {
+    // e.preventDefault()
+    shell.openExternal(e.url)
+    return { action: 'deny' }
   })
 
   win.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
