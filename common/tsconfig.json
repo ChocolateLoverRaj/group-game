@@ -2,7 +2,13 @@
   "compilerOptions": {
     "jsx": "preserve",
     "strictNullChecks": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "lib": [
+      "ES2018",
+      "DOM"
+    ],
+    "target": "ES2018",
+    "moduleResolution": "Node"
   },
   "include": [
     "types.ts",

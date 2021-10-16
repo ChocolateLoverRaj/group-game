@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,7 +27,9 @@ public class MainActivity extends AppCompatActivity {
 
 
         final WebView webView = findViewById(R.id.webView);
-        webView.getSettings().setJavaScriptEnabled(true);
+        WebSettings settings = webView.getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setDomStorageEnabled(true);
 
         // Change prefers-color-scheme based on system ui mode
         final boolean dark = (getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK)
@@ -34,12 +37,12 @@ public class MainActivity extends AppCompatActivity {
         if (dark) {
             if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
                 Log.d(getClass().getName(), "Set force dark");
-                WebSettingsCompat.setForceDark(webView.getSettings(), WebSettingsCompat.FORCE_DARK_ON);
+                WebSettingsCompat.setForceDark(settings, WebSettingsCompat.FORCE_DARK_ON);
             } else {
                 Log.d(getClass().getName(), "The device uses dark ui, but dark mode is not supported for this webView");
             }
             if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK_STRATEGY)) {
-                WebSettingsCompat.setForceDarkStrategy(webView.getSettings(), WebSettingsCompat.DARK_STRATEGY_WEB_THEME_DARKENING_ONLY);
+                WebSettingsCompat.setForceDarkStrategy(settings, WebSettingsCompat.DARK_STRATEGY_WEB_THEME_DARKENING_ONLY);
                 Log.d(getClass().getName(), "Set force dark strategy to change web theme");
             } else {
                 Log.d(getClass().getName(), "Force dark strategy not supported");

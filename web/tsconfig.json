@@ -1,9 +1,12 @@
 {
   "compilerOptions": {
     "jsx": "preserve",
-    "strict": true
+    "strict": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true
   },
   "include": [
-    "../common/types.ts"
+    "../common/types.ts",
+    "./*.tsx"
   ]
 }
