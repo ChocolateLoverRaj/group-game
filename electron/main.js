@@ -40,7 +40,7 @@ app.whenReady().then(() => {
     callback({
       responseHeaders: {
         ...details.responseHeaders,
-        'Content-Security-Policy': ["default-src 'self' 'unsafe-eval'"]
+        'Content-Security-Policy': ["default-src 'self' 'unsafe-eval' 'unsafe-inline'"]
       }
     })
   })

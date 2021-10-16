@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "jsx": "preserve",
+    "strictNullChecks": true,
+    "esModuleInterop": true
+  },
+  "include": [
+    "types.ts",
+    "*.ts",
+    "*.tsx"
+  ]
+}

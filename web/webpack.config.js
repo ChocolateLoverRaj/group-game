@@ -1,5 +1,6 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 module.exports = {
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
@@ -27,12 +28,20 @@ module.exports = {
     }, {
       test: /\.(png|svg|jpg|jpeg|gif)$/i,
       type: 'asset/resource'
+    }, {
+      test: /\.lazy\.css$/i,
+      use: [{
+        loader: 'style-loader',
+        options: {
+          injectType: 'lazyStyleTag'
+        }
+      }, 'css-loader']
     }]
   },
   resolve: {
-    extensions: ['.tsx', '.js']
+    extensions: ['.tsx', '.js', '.ts']
   },
   plugins: [new HtmlWebpackPlugin({
     template: path.join(__dirname, './index.html')
-  })]
+  }), new MiniCssExtractPlugin()]
 }

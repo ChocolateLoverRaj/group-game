@@ -23,6 +23,7 @@ jobs:
         with:
           version: 6.7.6
       - run: pnpm i
+      - run: pnpm i
         working-directory: common
       - run: pnpm i
         working-directory: web
