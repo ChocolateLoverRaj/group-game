@@ -4,6 +4,8 @@
     "strict": true
   },
   "include": [
-    "../common/types.ts"
+    "../common/types.ts",
+    "*.ts",
+    "./mainTypes.d.ts"
   ]
 }

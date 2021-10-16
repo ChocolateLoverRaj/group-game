@@ -1,10 +1,10 @@
-/* global MAIN_WINDOW_WEBPACK_ENTRY */
-const { app, session, BrowserWindow, shell } = require('electron')
-const windowStateKeeper = require('electron-window-state')
-const { enable, initialize } = require('@electron/remote/main')
+import { app, session, BrowserWindow, shell } from 'electron'
+import windowStateKeeper = require('electron-window-state')
+import { enable, initialize } from '@electron/remote/main'
 
 initialize()
 
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
 app.whenReady().then(() => {
   // From https://github.com/mawie81/electron-window-state/blob/2701d9a0f90a44dc8dbf81430538ceb16c9ff27a/readme.md
   // Load the previous state with fallback to defaults
@@ -46,10 +46,11 @@ app.whenReady().then(() => {
 
   // From https://stackoverflow.com/a/32427579/11145447
   win.webContents.setWindowOpenHandler(function (e) {
-    // e.preventDefault()
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     shell.openExternal(e.url)
     return { action: 'deny' }
   })
 
+  // eslint-disable-next-line @typescript-eslint/no-floating-promises
   win.loadURL(MAIN_WINDOW_WEBPACK_ENTRY)
 })
