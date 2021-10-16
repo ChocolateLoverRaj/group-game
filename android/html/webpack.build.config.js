@@ -27,10 +27,18 @@ module.exports = {
     }, {
       test: /\.(png|svg|jpg|jpeg|gif)$/i,
       type: 'asset/resource'
+    }, {
+      test: /\.lazy\.css$/i,
+      use: [{
+        loader: 'style-loader',
+        options: {
+          injectType: 'lazyStyleTag'
+        }
+      }, 'css-loader']
     }]
   },
   resolve: {
-    extensions: ['.tsx', '.js']
+    extensions: ['.tsx', '.js', '.ts']
   },
   plugins: [new HtmlWebpackPlugin({
     template: path.join(__dirname, './index.html')
