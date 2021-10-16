@@ -6,7 +6,7 @@ Demo game with  many options for connecting devices.
 ## Web
 Go to https://chocolateloverraj.github.io/group-game/.
 
-## Windows
+## Electron (Desktop Application)
 - Download zip from https://github.com/ChocolateLoverRaj/group-game/releases
 - Unzip
 - Open `.exe`
@@ -14,12 +14,6 @@ Go to https://chocolateloverraj.github.io/group-game/.
 ## Android
 - Download apk from https://github.com/ChocolateLoverRaj/group-game/releases
 - Install
-
-## Linux
-Pull requests welcome
-
-## Mac
-Pull requests welcome
 
 ## iOS
 Pull requests welcome
