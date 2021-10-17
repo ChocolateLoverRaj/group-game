@@ -1,6 +1,7 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 
 module.exports = {
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
@@ -41,7 +42,11 @@ module.exports = {
   resolve: {
     extensions: ['.tsx', '.js', '.ts']
   },
-  plugins: [new HtmlWebpackPlugin({
-    template: path.join(__dirname, './index.html')
-  }), new MiniCssExtractPlugin()]
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, './index.html')
+    }),
+    new MiniCssExtractPlugin(),
+    new FaviconsWebpackPlugin(path.join(__dirname, '../common/dot.png'))
+  ]
 }
