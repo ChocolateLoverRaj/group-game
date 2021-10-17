@@ -8,6 +8,8 @@ import Context from './Context'
 import Header from './Header'
 import Settings from './Settings'
 import { observer } from 'mobx-react-lite'
+import Helmet from 'react-helmet'
+import getMainTitle from './getMainTitle'
 
 const App: FC<Api> = observer(api => {
   useTheme()
@@ -15,20 +17,25 @@ const App: FC<Api> = observer(api => {
   const { environment: { displayName }, dialog, additionalRoutes } = api
 
   return (
-    <Context.Provider value={api}>
-      <HashRouter>
-        <Header />
-        <Switch>
-          <Route exact path='/'>
-            Environment: {displayName} <br />
-            <img src={dot} alt='Dot' />
-            <Button onClick={dialog}>Show dialog</Button>
-          </Route>
-          <Route path='/settings' component={Settings} />
-          {additionalRoutes}
-        </Switch>
-      </HashRouter>
-    </Context.Provider>
+    <>
+      <Helmet>
+        <title>{getMainTitle(api)}</title>
+      </Helmet>
+      <Context.Provider value={api}>
+        <HashRouter>
+          <Header />
+          <Switch>
+            <Route exact path='/'>
+              Environment: {displayName} <br />
+              <img src={dot} alt='Dot' />
+              <Button onClick={dialog}>Show dialog</Button>
+            </Route>
+            <Route path='/settings' component={Settings} />
+            {additionalRoutes}
+          </Switch>
+        </HashRouter>
+      </Context.Provider>
+    </>
   )
 })
 

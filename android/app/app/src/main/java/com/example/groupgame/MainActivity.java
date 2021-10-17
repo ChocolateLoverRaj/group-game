@@ -49,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        // Log webView version
+        Log.i(getClass().getName(),"Web view user agent: " + settings.getUserAgentString());
+
         webView.setWebChromeClient(new WebChromeClient());
         Log.d(getClass().getName(), "Hello?");
         webView.addJavascriptInterface(new JavascriptInterface(this), "Android");
