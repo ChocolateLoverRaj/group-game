@@ -22,7 +22,8 @@ app.whenReady().then(() => {
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false
-    }
+    },
+    icon: '../common/dot.png'
   })
 
   enable(win.webContents)
