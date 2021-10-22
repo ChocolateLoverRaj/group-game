@@ -2,7 +2,6 @@ package com.example.groupgame;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.util.Log;
 
 public class JavascriptInterface {
@@ -16,9 +15,7 @@ public class JavascriptInterface {
     public void dialog () {
         new AlertDialog.Builder(context)
                 .setTitle("Hello")
-                .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
-                    Log.d(getClass().getName(), "Dialog okayed");
-                })
+                .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> Log.d(getClass().getName(), "Dialog okayed"))
                 .show();
     }
 }

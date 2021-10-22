@@ -3,10 +3,12 @@
     "jsx": "preserve",
     "strict": true,
     "resolveJsonModule": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "target": "ES5"
   },
   "include": [
     "../common/types.ts",
-    "./*.tsx"
+    "./*.tsx",
+    "./*.ts"
   ]
 }

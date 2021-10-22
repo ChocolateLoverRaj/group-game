@@ -1,11 +1,15 @@
 {
   "compilerOptions": {
     "jsx": "preserve",
-    "strict": true
+    "strict": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "target": "ES5",
+    "downlevelIteration": true
   },
   "include": [
-    "../common/types.ts",
     "*.ts",
-    "./mainTypes.d.ts"
+    "./mainTypes.d.ts",
+    "*.tsx"
   ]
 }

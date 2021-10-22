@@ -1,5 +1,6 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const { DefinePlugin } = require('webpack')
 
 module.exports = {
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
@@ -38,9 +39,14 @@ module.exports = {
     }]
   },
   resolve: {
-    extensions: ['.tsx', '.js', '.ts']
+    extensions: ['.tsx', '.js', '.ts'],
+    fallback: {
+      assert: require.resolve('assert-browserify')
+    }
   },
   plugins: [new HtmlWebpackPlugin({
     template: path.join(__dirname, './index.html')
+  }), new DefinePlugin({
+    'process.env.NODE_DEBUG': JSON.stringify(process.env.NODE_DEBUG)
   })]
 }

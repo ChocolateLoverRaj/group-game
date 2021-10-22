@@ -4,7 +4,7 @@
     "strictNullChecks": true,
     "esModuleInterop": true,
     "lib": [
-      "ES2018",
+      "ES2019",
       "DOM"
     ],
     "target": "ES2018",

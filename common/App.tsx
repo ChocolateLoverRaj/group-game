@@ -1,20 +1,19 @@
 import { FC } from 'react'
-import dot from './dot.png'
-import { Button } from 'antd'
 import useTheme from './useTheme'
 import { HashRouter, Switch, Route } from 'react-router-dom'
-import Api from './Api'
+import { Api } from './Api'
 import Context from './Context'
 import Header from './Header'
 import Settings from './Settings'
 import { observer } from 'mobx-react-lite'
 import Helmet from 'react-helmet'
 import getMainTitle from './getMainTitle'
+import MainRoute from './MainRoute'
 
 const App: FC<Api> = observer(api => {
   useTheme()
 
-  const { environment: { displayName }, dialog, additionalRoutes } = api
+  const { additionalRoutes } = api
 
   return (
     <>
@@ -25,11 +24,7 @@ const App: FC<Api> = observer(api => {
         <HashRouter>
           <Header />
           <Switch>
-            <Route exact path='/'>
-              Environment: {displayName} <br />
-              <img src={dot} alt='Dot' />
-              <Button onClick={dialog}>Show dialog</Button>
-            </Route>
+            <Route exact path='/' component={MainRoute} />
             <Route path='/settings' component={Settings} />
             {additionalRoutes}
           </Switch>
