@@ -35,10 +35,6 @@ export class Game {
       : (this.clientService ?? never()).players
   }
 
-  get host (): string {
-    return this.isHost ? this.myName : (this.clientService ?? never()).host
-  }
-
   /**
    * Only call from host service
    */
