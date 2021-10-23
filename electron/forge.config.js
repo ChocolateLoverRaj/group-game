@@ -1,6 +1,7 @@
 module.exports = {
   packagerConfig: {
-    icon: './icon'
+    icon: './icon',
+    extraResource: './webSocketHttp.html'
   },
   makers: [{
     name: '@electron-forge/maker-zip'

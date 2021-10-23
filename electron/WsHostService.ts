@@ -3,6 +3,7 @@ import { WebSocketServer, WebSocket } from 'ws'
 import webSocketToIterator from '../common/webSocketToIterator'
 import SocketHostService, { Connection } from './SocketHostService'
 import { createReadStream } from 'fs'
+import { join } from 'path'
 
 const getConnection = (socket: WebSocket): Connection => new Proxy(socket, {
   get: (target, p, receiver) => {
@@ -20,6 +21,8 @@ const getConnection = (socket: WebSocket): Connection => new Proxy(socket, {
   }
 }) as any
 
+const isProduction = process.env.npm_package_version === undefined
+
 class WsHostService extends SocketHostService {
   readonly server: Server
   readonly key = 'ws'
@@ -30,7 +33,8 @@ class WsHostService extends SocketHostService {
     this.server = createServer((_req, res) => {
       res.statusCode = 404
       res.setHeader('Content-Type', 'text/html')
-      createReadStream('webSocketHttp.html').pipe(res)
+      createReadStream(join(
+        isProduction ? process.resourcesPath : process.cwd(), 'webSocketHttp.html')).pipe(res)
     })
     new WebSocketServer({ server: this.server })
       .on('connection', socket => {
