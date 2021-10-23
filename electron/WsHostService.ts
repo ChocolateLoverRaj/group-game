@@ -2,6 +2,7 @@ import { createServer, Server } from 'http'
 import { WebSocketServer, WebSocket } from 'ws'
 import webSocketToIterator from '../common/webSocketToIterator'
 import SocketHostService, { Connection } from './SocketHostService'
+import { createReadStream } from 'fs'
 
 const getConnection = (socket: WebSocket): Connection => new Proxy(socket, {
   get: (target, p, receiver) => {
@@ -28,7 +29,8 @@ class WsHostService extends SocketHostService {
 
     this.server = createServer((_req, res) => {
       res.statusCode = 404
-      res.end()
+      res.setHeader('Content-Type', 'text/html')
+      createReadStream('webSocketHttp.html').pipe(res)
     })
     new WebSocketServer({ server: this.server })
       .on('connection', socket => {
