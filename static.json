@@ -1,0 +1,4 @@
+{
+  "root": "web/dist",
+  "clean_urls": true
+}
