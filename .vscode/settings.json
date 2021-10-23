@@ -6,6 +6,7 @@
     "localstorage",
     "Paranjpe",
     "pnpm",
+    "postbuild",
     "unuse"
   ]
 }

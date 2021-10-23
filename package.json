@@ -8,7 +8,8 @@
     "url": "https://github.com/ChocolateLoverRaj"
   },
   "scripts": {
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "heroku-postbuild": "cd web && npm i && npm run build"
   },
   "devDependencies": {
     "@types/callback-to-async-iterator": "^1.1.3",
