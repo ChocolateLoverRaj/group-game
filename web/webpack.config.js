@@ -3,9 +3,12 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const { DefinePlugin } = require('webpack')
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
+
+const isProduction = process.env.NODE_ENV === 'production'
 
 module.exports = {
-  mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
+  mode: isProduction ? 'production' : 'development',
   entry: path.join(__dirname, './index.tsx'),
   output: {
     path: path.join(__dirname, './dist')
@@ -23,7 +26,8 @@ module.exports = {
             '@babel/preset-react'
           ],
           plugins: [
-            'react-require'
+            'react-require',
+            ...isProduction ? [] : ['react-refresh/babel']
           ]
         }
       }
@@ -54,6 +58,9 @@ module.exports = {
     new FaviconsWebpackPlugin(path.join(__dirname, '../common/dot.png')),
     new DefinePlugin({
       'process.env.NODE_DEBUG': JSON.stringify(process.env.NODE_DEBUG)
-    })
+    }),
+    ...isProduction
+      ? []
+      : [new ReactRefreshWebpackPlugin()]
   ]
 }
