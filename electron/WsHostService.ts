@@ -1,21 +1,19 @@
 import { createServer, Server } from 'http'
-import type { connection as WsConnection, server as TWsServer } from 'websocket'
-import connectionToAsyncIterator from './connectionToAsyncIterator'
+import { WebSocketServer, WebSocket } from 'ws'
+import webSocketToIterator from '../common/webSocketToIterator'
 import SocketHostService, { Connection } from './SocketHostService'
 
-const { server: WsServer } = window.require('websocket') as { server: typeof TWsServer}
-
-const getConnection = (connection: WsConnection): Connection => new Proxy(connection, {
+const getConnection = (socket: WebSocket): Connection => new Proxy(socket, {
   get: (target, p, receiver) => {
     switch (p) {
       case Symbol.asyncIterator:
-        return () => connectionToAsyncIterator(connection)[Symbol.asyncIterator]()
+        return () => webSocketToIterator(socket)[Symbol.asyncIterator]()
       case 'write':
-        return (data: Uint8Array | string) => connection.sendBytes(Buffer.from(data))
+        return (data: Uint8Array | string) => socket.send(data)
       case 'destroy':
-        return connection.drop.bind(connection)
+        return socket.terminate.bind(socket)
       case 'end':
-        return connection.close.bind(connection)
+        return socket.close.bind(socket)
     }
     return Reflect.get(target, p, receiver)
   }
@@ -32,11 +30,10 @@ class WsHostService extends SocketHostService {
       res.statusCode = 404
       res.end()
     })
-    new WsServer({ httpServer: this.server })
-      .on('request', request => {
-        const connection = request.accept()
+    new WebSocketServer({ server: this.server })
+      .on('connection', socket => {
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        this.onConnection(getConnection(connection))
+        this.onConnection(getConnection(socket))
       })
 
     this._start()

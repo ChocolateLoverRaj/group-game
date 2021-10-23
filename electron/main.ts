@@ -1,5 +1,5 @@
 import { app, session, BrowserWindow, shell } from 'electron'
-import windowStateKeeper = require('electron-window-state')
+import windowStateKeeper from 'electron-window-state'
 import { enable, initialize } from '@electron/remote/main'
 
 initialize()

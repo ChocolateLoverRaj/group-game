@@ -4,8 +4,9 @@
     "strict": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
-    "target": "ES5",
-    "downlevelIteration": true
+    "target": "ES2019",
+    "downlevelIteration": true,
+    "moduleResolution": "Node"
   },
   "include": [
     "*.ts",
