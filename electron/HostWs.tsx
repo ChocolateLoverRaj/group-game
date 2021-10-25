@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite'
-import defaultWsPort from './defaultWsPort'
+import defaultWsPort from '../common/defaultWsPort'
 import PortForm, { Validate } from './PortForm'
 import WsHostService from './WsHostService'
 import { once } from 'events'

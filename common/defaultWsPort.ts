@@ -1,4 +1,4 @@
-import defaultTcpPort from './defaultTcpPort'
+import defaultTcpPort from '../electron/defaultTcpPort'
 
 const defaultWsPort = defaultTcpPort + 1
 
