@@ -8,10 +8,12 @@ import flattenAsyncIterable from './flattenAsyncIterator'
 import { message } from 'antd'
 import TcpEvents from './TcpEvents'
 import { Duplex } from 'stream'
-import once from 'events.once'
+import SimpleEventEmitter from './SimpleEventEmitter'
 
-export interface CommonSocket extends Pick<Duplex, 'write' | 'readable' | 'writable' | 'off' | 'once' | 'destroy' | 'removeListener'> {
+export interface CommonSocket extends Pick<Duplex, 'readable' | 'writable' | 'destroy'> {
   [Symbol.asyncIterator]: Duplex[typeof Symbol.asyncIterator]
+  closeEmitter: SimpleEventEmitter<[]>
+  write: (data: Uint8Array | string) => Promise<void>
 }
 
 abstract class SocketClientService extends ClientService {
@@ -48,9 +50,9 @@ abstract class SocketClientService extends ClientService {
     if (this.socket === undefined) {
       throw new Error('Cannot stop this service because it was never started')
     }
-    this.socket.off('close', this.unexpectedCloseHandler)
+    this.socket.closeEmitter.off(this.unexpectedCloseHandler)
     this.socket.destroy()
-    yield once(this.socket, 'close')
+    yield this.socket.closeEmitter.once()
     this.afterStopped()
   }
 
@@ -68,7 +70,7 @@ abstract class SocketClientService extends ClientService {
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   async _afterJoin (iterator: AsyncIterator<any>) {
     const numberOfPlayers = (await iterator.next()).value
-    this.socket?.once('close', this.unexpectedCloseHandler)
+    this.socket?.closeEmitter.on(this.unexpectedCloseHandler, true)
     for (let i = 0; i < numberOfPlayers; i++) {
       const nameLength = (await iterator.next()).value
       const name = new TextDecoder().decode(new Uint8Array(await readAsyncIterator(iterator, nameLength))).toString()
@@ -77,6 +79,7 @@ abstract class SocketClientService extends ClientService {
     while (true) {
       const { value: event, done: done0 } = (await iterator.next())
       if (done0 === true) break
+      if (event === TcpEvents.STOP) return this.socket?.closeEmitter.emit()
       const { value: playerNameLength, done: done1 } = await iterator.next()
       if (done1 === true) break
       const playerName = new TextDecoder().decode(new Uint8Array(await readAsyncIterator(iterator, playerNameLength))).toString()
@@ -88,15 +91,19 @@ abstract class SocketClientService extends ClientService {
     }
   }
 
-  abstract connect (): CommonSocket
+  abstract connect (): Promise<CommonSocket>
 
   async start (): Promise<void> {
-    this.socket = this.connect()
-    await once(this.socket, 'connect')
-    this.socket.write(new Uint8Array([game.myName.length]))
-    this.socket.write(game.myName)
+    this.socket = await this.connect()
+    console.log('Connected')
+    await this.socket.write(new Uint8Array([game.myName.length]))
+    console.log('Wrote name length')
+    await this.socket.write(game.myName)
+    console.log('Wrote name')
     const iterator = flattenAsyncIterable<number>(this.socket)
+    console.log('Waiting for name status')
     const nameStatus = (await iterator.next()).value
+    console.log('Got name status')
     if (nameStatus === NameStatusEnum.CONFLICT) throw new NameTakenError()
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     this._afterJoin(iterator)

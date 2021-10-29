@@ -1,4 +1,4 @@
-import defaultTcpPort from './defaultTcpPort'
+import defaultTcpPort from '../common/defaultTcpPort'
 import { once } from 'events'
 import TcpHostService from './TcpHostService'
 import { game } from '../common/Game'

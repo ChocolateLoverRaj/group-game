@@ -3,10 +3,7 @@ import App from '../../common/App'
 import packageJson from './package.json'
 import last from 'last-element'
 import wsJoinMethod from '../../common/wsJoinMethod'
-
-// eslint-disable-next-line @typescript-eslint/no-namespace
-/* declare namespace Android {
-} */
+import JoinTcp from './JoinTcp'
 
 const tagPrefix = last(packageJson.name.split('-'))
 
@@ -15,7 +12,11 @@ const AndroidApp: FC = () =>
     tagPrefix={tagPrefix}
     version={packageJson.version}
     getLink={(url, contents) => <a href={url}>{contents}</a>}
-    joinMethods={[wsJoinMethod]}
+    joinMethods={[wsJoinMethod, {
+      key: 'tcp',
+      name: 'Connect to TCP Server',
+      render: (validate, onJoin) => <JoinTcp validate={validate} onJoin={onJoin} />
+    }]}
     hostMethods={[]}
   />
 

@@ -9,9 +9,10 @@ import NameStatusEnum from '../common/NameStatusEnum'
 import TcpEvents from '../common/TcpEvents'
 import { Duplex } from 'stream'
 
-export interface Connection extends Pick<Duplex, 'destroy' | 'end' | 'write'> {
+export interface Connection extends Pick<Duplex, 'destroy' | 'end'> {
   [Symbol.asyncIterator]: Duplex[typeof Symbol.asyncIterator]
   once: (event: string, handler: (...args: any[]) => void) => void
+  write: (chunk: any) => Promise<void>
 }
 
 /**
@@ -27,12 +28,16 @@ abstract class SocketHostService extends HostService {
     this.connections.add(connection)
     connection.once('close', action(() => this.connections.delete(connection)))
     const iterable = flattenAsyncIterable<number>(connection)
+    console.log('waiting for name length')
     const nameLength = (await iterable.next()).value
+    console.log('Got name length', nameLength)
     const name = Buffer.from(await readAsyncIterator(iterable, nameLength)).toString()
+    console.log('Got name', name)
     const nameTaken = game.players.has(name)
-    connection.write(new Uint8Array([
+    await connection.write(new Uint8Array([
       !nameTaken ? NameStatusEnum.OK : NameStatusEnum.CONFLICT
     ]))
+    console.log('Wrote if name taken')
     if (nameTaken) return connection.end()
     runInAction(() => {
       this._players.set(name, connection)
@@ -42,10 +47,10 @@ abstract class SocketHostService extends HostService {
       this._players.delete(name)
       game.onPlayerLeave(name)
     }))
-    connection.write(new Uint8Array([game.players.size]))
+    await connection.write(new Uint8Array([game.players.size]))
     for (const player of game.players.keys()) {
-      connection.write(new Uint8Array([player.length]))
-      connection.write(player)
+      await connection.write(new Uint8Array([player.length]))
+      await connection.write(player)
     }
   }
 
@@ -76,6 +81,8 @@ abstract class SocketHostService extends HostService {
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   * _stop () {
+    yield Promise.all([...this._players.values()]
+      .map(connection => connection.write(new Uint8Array([TcpEvents.STOP]))))
     this.server.close()
     for (const connection of this.connections) connection.destroy()
     yield once(this.server, 'close')

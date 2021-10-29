@@ -10,7 +10,7 @@ export interface GeneralProps {
 }
 
 export interface JoinSocketProps extends GeneralProps {
-  Service: typeof SocketClientService
+  Service: any
   additionalFormItems?: ReactNode
   defaultPort: number
 }
@@ -36,7 +36,7 @@ const JoinSocket: FC<JoinSocketProps> = ({
           if (!Number.isInteger(port)) {
             throw new Error(`'${portStr}' is not a valid port`)
           }
-          const service: SocketClientService = new (Service as any)(address, port)
+          const service: SocketClientService = new Service(address, port)
           try {
             await service.start()
           } catch (e) {

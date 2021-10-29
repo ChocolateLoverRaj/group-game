@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
         webView.setWebChromeClient(new WebChromeClient());
         Log.d(getClass().getName(), "Hello?");
-        webView.addJavascriptInterface(new JavascriptInterface(this), "Android");
+        webView.addJavascriptInterface(new JavascriptInterface(webView, this), "Android");
         webView.loadData("", "text/html", null);
         webView.loadUrl("file:///android_asset/index.html");
     }
