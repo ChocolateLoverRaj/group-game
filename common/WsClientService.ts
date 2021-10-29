@@ -44,7 +44,11 @@ class WsClientService extends SocketClientService {
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   async connect () {
     const connection = new WebsocketConnection(`ws://${this.host}:${this.port}`)
-    await addEventListenerOnce(connection, 'open')
+    const [e] = await Promise.race([
+      addEventListenerOnce(connection, 'open'),
+      addEventListenerOnce(connection, 'error')
+    ])
+    if (e.type === 'error') throw new Error('Error in WebSocketConnection')
     return connection
   }
 }
