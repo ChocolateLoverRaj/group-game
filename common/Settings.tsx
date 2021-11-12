@@ -1,6 +1,6 @@
 import { FC, useContext } from 'react'
 import { observer } from 'mobx-react-lite'
-import { theme, ThemeEnum } from './Theme'
+import theme from './theme'
 import { Radio, RadioGroupProps } from 'antd'
 import Helmet from 'react-helmet'
 import getMainTitle from './getMainTitle'
@@ -11,7 +11,7 @@ const Settings: FC = observer(() => {
   const selectedTheme = theme.selectedTheme ?? 'auto'
 
   const handleChange: RadioGroupProps['onChange'] = ({ target: { value } }) => {
-    theme.selectedTheme = (value === 'auto' ? null : value)
+    theme.selectedTheme = value === 'auto' ? undefined : value
   }
 
   return (
@@ -23,8 +23,8 @@ const Settings: FC = observer(() => {
       <h2>Theme</h2>
       <Radio.Group value={selectedTheme} onChange={handleChange}>
         <Radio value='auto'>Auto</Radio>
-        <Radio value={ThemeEnum.DARK}>Dark</Radio>
-        <Radio value={ThemeEnum.LIGHT}>Light</Radio>
+        <Radio value='dark'>Dark</Radio>
+        <Radio value='light'>Light</Radio>
       </Radio.Group>
     </>
   )
